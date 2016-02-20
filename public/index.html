@@ -1,0 +1,101 @@
+<!doctype html>
+
+<!-- ASSIGN OUR ANGULAR MODULE -->
+<html ng-app="scotchTodo">
+<head>
+	<!-- META -->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1"><!-- Optimize mobile viewport -->
+
+	<title>Node/Angular Todo App</title>
+
+	<!-- SCROLLS -->
+	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css"><!-- load bootstrap -->
+	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
+	<style>
+		html 					{ overflow-y:scroll; }
+		body 					{ padding-top:50px; }
+		#todo-list 				{ margin-bottom:30px; }
+		#todo-form 	 			{ margin-bottom:50px; }
+	</style>
+
+	<!-- SPELLS -->
+	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.16/angular.min.js"></script><!-- load angular -->
+	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.0-beta.2/angular-sanitize.js"></script>
+	<script src="js/controllers/main.js"></script> <!-- load up our controller -->
+	<!-- <script src="js/services/todos.js"></script> load our todo service -->
+	<script src="js/core.js"></script> <!-- load our main application -->
+	<script src="js/Autolinker.min.js"></script>
+
+</head>
+<!-- SET THE CONTROLLER -->
+<body ng-controller="mainController" >
+	<div class="container">
+
+		
+		<div class="jumbotron text-center">
+			<h2>Twitter Feeds Search<span class="label label-default"></span></h2>
+		</div>
+
+		<div class="form">
+
+			<!-- <form novalidate ng-controller="mainController as formCtrl" ng-submit="formCtrl.changeQuery()" >  -->
+  			<form novalidate ng-controller="mainController as formCtrl">
+
+			    Query:<input type="text" ng-model="formCtrl.query"/><br><br>
+			    <!-- <button type="submit" id="submit" value="Submit">Submit</button> -->
+			    <button ng-click="formCtrl.changeQuery()">Submit</button>
+			    <button ng-click="formCtrl.reset()">Reset</button>
+			    <br><br>
+			    <p>Search Twitter for: {{formCtrl.query}}</p>
+			    <select ng-model="pageSize" id="pageSize" class="form-control">
+			        <option value="5">5</option>
+			        <option value="10">10</option>
+			        <option value="15">15</option>
+			        <option value="20">20</option>
+			     </select>
+			    <br>
+			    <!-- <p>{{myData.data.tweets}}</p> -->
+			    <!-- <div>
+					<ul>
+		    			<li ng-repeat="myText in myData.data.tweets">
+		      				<span><b>{{myText.name}}  </b>{{myText.text}}</span>	
+		    			</li>
+		  			</ul>
+				</div> -->
+
+
+				<div class="bs-example">
+			    <table class="table table-striped">
+			        <thead>
+			            <tr>
+			                <th>Name</th>
+			                <th>Tweet</th>
+			            </tr>
+			        </thead>
+			        <tbody>
+			            <tr ng-repeat="myText in myData.data.tweets | startFrom:currentPage*pageSize | limitTo:pageSize">
+			                <td>{{myText.name}}</td>
+			                <!--<td><linkify tweet="myText.text"></linkify></td>-->
+			                <td><div ng-bind-html="myText.text | linky"></div></td>
+			            </tr>
+			        </tbody>
+			        <button ng-disabled="currentPage == 0" ng-click="currentPage=currentPage-1">
+        				Previous
+    				</button>
+    				{{currentPage+1}}/{{numberOfPages()}}
+    				<button ng-disabled="currentPage >= getData().length/pageSize - 1" ng-click="currentPage=currentPage+1">
+        				Next
+    				</button>
+			    </table>
+				</div>
+
+		  	</form>
+
+		</div>
+
+
+	</div>
+
+</body>
+</html>
