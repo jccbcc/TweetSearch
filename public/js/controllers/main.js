@@ -20,6 +20,7 @@ app.config(['$httpProvider', function($httpProvider) {
 //.controller('mainController', ['$scope','$http', function($scope, $http) {
 app.controller('mainController', function($scope, $http, $filter) {
 
+	$scope.count = 0;
 	
     $http.get("http://54.191.254.205:8081/twitter/search?query=NBA&count=45").then(function(response) {
     	$scope.myData = response;
@@ -32,10 +33,11 @@ app.controller('mainController', function($scope, $http, $filter) {
     $scope.pageSize = 10;
     //$scope.data = [];
     $scope.q = '';
+    
 
 
     $scope.getData = function () {
-    	return $filter('filter')($scope.myData, $scope.query)
+    	return $filter('filter')($scope.myData, $scope.query);
     }
 
     $scope.numberOfPages=function(){
@@ -68,8 +70,6 @@ app.controller('mainController', function($scope, $http, $filter) {
 
 app.filter('startFrom', function() {
     return function(input, start) {
-    	console.log('********** input = ' + input);
-    	console.log('********** start = ' + start);
         start = +start; //parse to int
         return input.slice(start);
     }
